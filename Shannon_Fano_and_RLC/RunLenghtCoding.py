@@ -6,10 +6,10 @@ class RLC:
     def __init__(self):
         self.B0 = None
         self.B1 = None
-    def Compression(self,str,path_save):
-
-        kq = []
-        l = len(str)
+        self.encode = ''
+        self.decode = ''
+    def Compression(self,string,path_save):
+        l = len(string)
         i = 0
         while i < l:
             begin = i
@@ -19,27 +19,31 @@ class RLC:
             else:
                 begin = i
             for j in range(begin,l):
-                if str[begin] != str[j]:
+                if string[begin] != string[j]:
                     break
                 else:
                     dem += 1
                 i += 1
-            kq.append(str[begin])
-            kq.append(dem)
+            self.encode = self.encode + string[begin]
+            self.encode = self.encode + str(dem)            
         with open(path_save,'wb') as fb:
-                pickle.dump(kq,fb)
+                pickle.dump(self.encode,fb)
         fb.close()
-        return kq
+        self.B1 = len(self.encode)
+        self.B0 = l 
+        return self.encode
 
-    def Decompression(self,str,file_path_decompressed):
-        l = len(str)
-        print(str)
-        kq = ''
+    def Decompression(self,file_path_decompressed):
+        l = len(self.encode)
+        print(self.encode)
         for i in range(0,l,2):
-            F = str[i+1]
+            F = self.encode[i+1]
+            F = int(F)
             for j in range(F):
-                kq = kq + str[i]
-        pickle.dump(kq,open(file_path_decompressed,'wb'))
-        return kq
+                self.decode = self.decode + self.encode[i]
+        pickle.dump(self.decode,open(file_path_decompressed,'wb'))
+        print('len kq',len(self.decode))
+        print(self.decode)
+        return self.decode
     def Compression_Ratio(self):
-        return self.Bo/self.B1
+        return self.B0/self.B1
