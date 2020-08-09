@@ -1,5 +1,6 @@
 import os
 import  pickle
+import math
 
 class Shannon_Fano:
     
@@ -44,9 +45,16 @@ class Shannon_Fano:
         # Covert code for Shannon Fano
         for i in range(l):
             self.encode = self.encode + (self.Tree[str[i]][1:])
-        pickle.dump(encode,open(path_save_code,'wb'))
-        prikcle.dump(self.Tree,open(path_save_tree,'wb'))
-        self.B0 = 
+        pickle.dump(self.encode,open(path_save_code,'wb'))
+        # Create Table Probability
+        Table = {}
+        for key in self.Tree.keys():
+            Table[key] = self.Tree[key][0]
+        print('TABLE Probability: ', Table)
+
+        #pickle.dump(self.Tree,open(path_save_tree,'wb'))
+        pickle.dump(Table,open(path_save_tree,'wb'))
+        self.B1 = math.ceil(len(self.encode)/8) + os.stat(path_save_tree).st_size
         return self.encode
 
     def Decompression(self,code,Tree,path_save_decode):
@@ -71,6 +79,7 @@ class Shannon_Fano:
             low = high
             high += 1
         pickle.dump(result,open(path_save_decode,'wb'))
+        self.B0 = len(result)
         return result
         # Thông báo lỗi nếu ko giải nén được file
         # Lưu vào file mặc định 
@@ -112,7 +121,8 @@ class Shannon_Fano:
             s += i[1]
         return s
 
-    def Compression_Ratio(self,str):
+    def Compression_Ratio(self):
+        print('B0 {B0}, B1 {B1}'.format(B0 = self.B0, B1 = self.B1 ))
         return self.B0/self.B1
 
       

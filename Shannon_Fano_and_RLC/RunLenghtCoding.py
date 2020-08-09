@@ -7,7 +7,6 @@ class RLC:
         self.B0 = None
         self.B1 = None
     def Compression(self,str,path_save):
-
         kq = []
         l = len(str)
         i = 0
@@ -29,6 +28,8 @@ class RLC:
         with open(path_save,'wb') as fb:
                 pickle.dump(kq,fb)
         fb.close()
+        self.B1 = len(kq)
+        self.B0 = l 
         return kq
 
     def Decompression(self,str,file_path_decompressed):
@@ -40,6 +41,8 @@ class RLC:
             for j in range(F):
                 kq = kq + str[i]
         pickle.dump(kq,open(file_path_decompressed,'wb'))
+        print('len kq',len(kq))
+        print(kq)
         return kq
     def Compression_Ratio(self):
-        return self.Bo/self.B1
+        return self.B0/self.B1
