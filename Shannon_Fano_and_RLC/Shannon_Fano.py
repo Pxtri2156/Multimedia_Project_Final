@@ -1,30 +1,31 @@
 import os
 import  pickle
 import math
+import string
 
 class Shannon_Fano:
     
     def __init__(self):
         self.Tree = []
-        self.encode = []
-        self.decode = []
+        self.encode = ''
+        self.decode = ''
         self.B0 = None
         self.B1 = None
 
-    def Compression(self,str,path_save_code,path_save_tree):
+    def Compression(self,string,path_save_code,path_save_tree):
         '''
         This function compression
         '''
         #print('Do')
         Tree = []
-        l = len(str)
+        l = len(string)
         i = 0
         while self.Sum(Tree) < l:
             #print('Xuong')
-            while str[i] in [row[0] for row in Tree]:
+            while string[i] in [row[0] for row in Tree]:
                 i = i+1
             #print('i',i)
-            Tree.append([str[i],str.count(str[i])])
+            Tree.append([string[i],string.count(string[i])])
             i = i+1
         print(Tree)
 
@@ -44,7 +45,11 @@ class Shannon_Fano:
 
         # Covert code for Shannon Fano
         for i in range(l):
-            self.encode = self.encode + (self.Tree[str[i]][1:])
+            temp_str = ''
+            for char in self.Tree[string[i]][1:]:
+    
+                temp_str = temp_str + str(char)
+            self.encode = self.encode + temp_str
         pickle.dump(self.encode,open(path_save_code,'wb'))
         # Create Table Probability
         Table = {}
@@ -57,30 +62,41 @@ class Shannon_Fano:
         self.B1 = math.ceil(len(self.encode)/8) + os.stat(path_save_tree).st_size
         return self.encode
 
-    def Decompression(self,code,Tree,path_save_decode):
-        result = ''
+    def Decompression(self,encode,Tree,path_save_decode):
+        
         low = 0 
         high = 1
-        len_code = len(code)
+        len_code = len(encode)
+        Region_Find = []
+        for key in Tree.keys():
+            temp = ''
+            for char in Tree[key][1:]:
+                temp = temp + str(char)
+            Region_Find.append(temp)
+        #print('Region_Find',Region_Find)
         while low < len_code:
-            while code[low:high] not in [Tree[key][1:] for key in Tree.keys() ]:
+            while encode[low:high] not in Region_Find :
                 #print(code[low:high])
                 if high >= len_code:
-                    return result
+                    return self.decode
                 high += 1
             #print('low {low} high {high}'.format(low = low, high = high))
             for key in Tree.keys():
-                if Tree[key][1:] != code[low:high]:
+                temp = ''
+                for char in Tree[key][1:]:
+                    temp = temp + str(char)
+                if temp != encode[low:high]:
                     continue
                 else:
                     #print(key)
-                    result = result + key
+                    self.decode = self.decode + key
                     break
             low = high
             high += 1
-        pickle.dump(result,open(path_save_decode,'wb'))
-        self.B0 = len(result)
-        return result
+        pickle.dump(self.decode,open(path_save_decode,'wb'))
+        self.B0 = os.stat(path_save_decode).st_size
+        #print('len result', len(result))
+        return self.decode
         # Thông báo lỗi nếu ko giải nén được file
         # Lưu vào file mặc định 
 
