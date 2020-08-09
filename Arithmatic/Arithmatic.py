@@ -1,9 +1,7 @@
 class ArithmaticCoding:
     def __init__(self, table, terminator):
-        #self.symbols = symbols
-        #self.probs = probs
         self.table = table
-        self.terminator = terminator # End of word.
+        self.terminator = terminator 
 
     def __GetBinaryFractionValue(self, binaryFraction):
         value = 0
@@ -28,21 +26,19 @@ class ArithmaticCoding:
         return value
     
     def Compress(self, word):
-        
         lowOld = 0.0
         highOld = 1.0
         _range = 1.0
         
         # Iterate through the word to find the final range.
         for c in word:
-            
             low  = lowOld + _range * self.table[c][0]
             high = lowOld + _range * self.table[c][1]
             _range = high - low
 
             # Updete old low & hihh
-            lowOld = round(low,10)
-            highOld = round(high,10)
+            lowOld = round(low,10000000000)
+            highOld = round(high,10000000000)
         # Generating code word for encoder.
         code = ["0", "."] # Binary fractional number
         k = 2             # kth binary fraction bit
@@ -68,7 +64,7 @@ class ArithmaticCoding:
             # find the key which has low <= code and high > code
             for key, t in self.table.items():
                 if (value >= self.table[key][0] and value < self.table[key][1]):
-                    result += key # Append key to the result
+                    result += key 
                     # update low, high, code
                     low = self.table[key][0]
                     high = self.table[key][1]
