@@ -9,7 +9,7 @@ R = RLC()
 S = Shannon_Fano()
 choose = input("Enter choose: ")
 if choose == 'y':
-    encode = S.Compression(str,'encode.txt','Tree.txt','Output_shannon.txt')
+    encode = S.Compression(str,'encode.txt','Tree.txt','Table.txt','Output_shannon.txt')
     print('Code after compression: ',encode)
     decode = S.Decompression(encode,S.Tree,'Decode.txt')
     print('String after decompression',decode)
