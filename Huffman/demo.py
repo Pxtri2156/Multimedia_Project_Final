@@ -66,7 +66,7 @@ def main():
     elif args["type"] == "decode":
         start_time = time.time()
 
-        with open(args["output"], 'rb') as f:
+        with open(args["input"], 'rb') as f:
             (code, freq) = pickle.load(f)
 
         print("[INFO] The encoded binary: {}".format(code))
