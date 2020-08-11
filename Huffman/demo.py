@@ -38,20 +38,18 @@ def main():
 
         # Get frequency table from data
         freq = collections.Counter(string)
-
         huff = Huffman(freq)
         binary = huff.Compress(string)
-        
-        print("[INFO] The binary representation: {}".format(binary))
-
         end_time = time.time()
+
+        print("[INFO] The binary representation: {}".format(binary))
         print('[INFO] Total run-time: {} ms'.format((end_time - start_time) * 1000))
 
         with open(args["store"], 'wb') as f:
             pickle.dump(freq, f)
 
         with open(args["output"], 'wb') as f:
-                pickle.dump((binary, freq), f)
+            pickle.dump((binary, freq), f)
                 
         # Number of bits before compressing 
         uncompressed_size = os.stat(args["input"]).st_size
@@ -68,16 +66,16 @@ def main():
     elif args["type"] == "decode":
         start_time = time.time()
 
-        with open(args["output"], 'rb') as f:
+        with open(args["input"], 'rb') as f:
             (code, freq) = pickle.load(f)
 
         print("[INFO] The encoded binary: {}".format(code))
 
         huff = Huffman(freq)
         result = huff.Decompress(code)
-        print("[INFO] Result decode: {}".format(result))
-
         end_time = time.time()
+        
+        print("[INFO] Result decode: {}".format(result))
         print('[INFO] Total run-time: {} ms'.format((end_time - start_time) * 1000))
 
         # write result file 

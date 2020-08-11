@@ -37,8 +37,8 @@ class ArithmaticCoding:
             _range = high - low
 
             # Updete old low & hihh
-            lowOld = round(low,10000000000)
-            highOld = round(high,10000000000)
+            lowOld = low
+            highOld = high
         # Generating code word for encoder.
         code = ["0", "."] # Binary fractional number
         k = 2             # kth binary fraction bit
@@ -48,7 +48,7 @@ class ArithmaticCoding:
             # Assign 1 to the kth binary fraction bit
             code.append('1')
             (value,fraction) = self.__GetBinaryFractionValue("".join(code))
-            if (value > high):
+            if (value >= high):
                 # Replace the kth bit by 0
                 code[k] = '0'
             (value,fraction) = self.__GetBinaryFractionValue("".join(code))
