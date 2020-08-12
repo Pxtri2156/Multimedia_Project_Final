@@ -12,7 +12,7 @@ class Shannon_Fano:
         self.B0 = None
         self.B1 = None
 
-    def Compression(self,string,path_save_code,path_save_tree,path_save_table,path_save_output):
+    def Compression(self,string,path_save_code,path_save_table,path_save_output):
         '''
         This function compression
         '''
@@ -59,13 +59,13 @@ class Shannon_Fano:
 
         #pickle.dump(self.Tree,open(path_save_tree,'wb'))
         pickle.dump(Table,open(path_save_table,'wb'))
-        self.B1 = math.ceil(len(self.encode)/8) + os.stat(path_save_tree).st_size
+        self.B1 = math.ceil(len(self.encode)/8) + os.stat(path_save_table).st_size
 
         # Save encode to file 
-        pickle.dump((self.encode,Table),open(path_save_output,'wb'))
+        pickle.dump((self.encode,self.Tree),open(path_save_output,'wb'))
 
         # Save tree
-        pickle.dump(self.Tree,open(path_save_tree,'wb'))
+        #pickle.dump(self.Tree,open(path_save_tree,'wb'))
         
         return self.encode
 
