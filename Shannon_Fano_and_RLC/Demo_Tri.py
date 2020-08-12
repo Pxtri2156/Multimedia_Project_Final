@@ -17,7 +17,7 @@ if choose == 'y':
 else:
     encode = R.Compression(str,'encode.txt')
     print('Code after compression: ',encode)
-    decode = R.Decompression('Decode.txt')
+    decode = R.Decompression(encode,'Decode.txt')
     print('String after decompression',decode)
     print('Compression ratio: ',R.Compression_Ratio())
 

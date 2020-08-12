@@ -33,14 +33,14 @@ class RLC:
         self.B0 = l 
         return self.encode
 
-    def Decompression(self,file_path_decompressed):
-        l = len(self.encode)
-        print(self.encode)
+    def Decompression(self,encode,file_path_decompressed):
+        l = len(encode)
+        print(encode)
         for i in range(0,l,2):
-            F = self.encode[i+1]
+            F = encode[i+1]
             F = int(F)
             for j in range(F):
-                self.decode = self.decode + self.encode[i]
+                self.decode = self.decode + encode[i]
         pickle.dump(self.decode,open(file_path_decompressed,'wb'))
         print('len kq',len(self.decode))
         print(self.decode)
